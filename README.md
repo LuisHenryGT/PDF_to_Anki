@@ -1,6 +1,9 @@
 # Anki Deck Generator from PDF
 
-## Overview
+#### Video Demo:  <URL HERE>
+
+#### Description:
+
 
 This project is a Flask-based web application that allows you to upload a PDF file (e.g., lecture notes, study guides, etc..) and automatically generate a set of flashcards in an Anki-compatible `.apkg` deck format. By leveraging a large language model (openAI API) for text analysis and card generation, this tool aims to streamline your study process: simply upload your notes as a PDF, and the app will produce flashcards you can instantly import into Anki, making your study sessions more effective and efficient.
 
@@ -27,6 +30,7 @@ project_folder/
 ├─ helpers.py
 ├─ prompt.txt
 ├─ apikey.txt
+├─ requirements.txt
 └─ README.md
 ```
 
@@ -58,7 +62,7 @@ project_folder/
    - **`extract_text_from_pdf(pdf_path)`:** Uses `pdfplumber` to open and extract text from each page of the uploaded PDF.
    - **`clean_extracted_text(text)`:** Cleans the extracted text by removing extra spaces, page numbers, and other non-useful artifacts.
    - **`read_file(filename)`:** A utility function to read content from a file (used to read prompts and API keys).
-   - **`run_flashcard_generation(cleaned_text)`:** Uses the OpenAI API (or another language model provider) to send the cleaned text along with a system prompt and gets back JSON-formatted flashcards.
+   - **`run_flashcard_generation(cleaned_text)`:** Uses the OpenAI API to send the cleaned text along with a system prompt and gets back JSON-formatted flashcards.
    - **`run_deck_creation(json_file, deck_name)`:** Takes the generated flashcards (in JSON) and creates an Anki deck file using `genanki`. This involves:
      - Defining a model (template) for the cards.
      - Creating an Anki deck object and adding notes for each flashcard.
@@ -73,18 +77,18 @@ project_folder/
    The `run_flashcard_generation` function expects the language model to return JSON containing flashcards. For example, the JSON might look like this:
    ```json
    [
-       {"front": "What is the definition of photosynthesis?", "back": "Photosynthesis is..."},
-       {"front": "Name the three states of matter.", "back": "Solid, liquid, and gas."}
+       {"front": "Question?", "back": "Answer"},
+       {"front": "What are the labs results in Pericarditis/Pericardial Tamponade?", "back": "CBC has ↑WBC, ↑ CRP, ↑ ESR, ↑ Cr, TSH/T4 shows hypothyroidism sometimes."}
    ]
    ```
    
    These are then turned into Anki notes and compiled into a `.apkg` deck.
 
 5. **`prompt.txt`:**  
-   A text file containing the system prompt given to the language model. This prompt can instruct the model on how to structure the flashcards. By modifying this file, you can change the style, format, or complexity of the generated flashcards without altering your code.
+   Contains the carefully engineered prompt that instructs the language model how to format its output. By adjusting this prompt, you can influence the style, detail, and complexity of the generated flashcards.
 
 6. **`apikey.txt`:**  
-   A text file that stores your secret API key for the language model API. Storing it separately keeps your code clean and helps prevent you from accidentally sharing your keys. In a production environment, consider using environment variables or more secure methods of storing secrets.
+   A text file that stores the secret API key for the language model API.
 
 7. **`index.html`:**  
    An HTML template that provides the user interface. It uses Bootstrap for simple styling and includes:
@@ -92,47 +96,32 @@ project_folder/
    - A file upload form where users can submit their PDF.
    - A "Generate Flashcards" button that triggers the server-side logic in `app.py`.
 
+7. **`requirements.txt`:**  
+   Lists all the Python dependencies required for running the project (`flask`, `pdfplumber`, `genanki`, `openai`, `requests`,  `re`, `random`, `json`)
+
+   To install dependencies from `requirements.txt`, run:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
 ## Running the Project
-
-### Prerequisites
-
-- **Python 3.8+** recommended.
-- **Python Packages:** Make sure you have installed the required packages:
-  ```bash
-  pip install flask pdfplumber genanki openai requests
-  ```
-  
-  Adjust this command if you already have some dependencies. `requests` may be required for certain API calls, and `openai` is needed to interact with the OpenAI API.
-
-### Steps to Run Locally
 
 1. **Set Up Your API Key:**  
    Place your language model API key into the `apikey.txt` file. For example, if using OpenAI:
    ```text
-   sk-YourSecretAPIKeyHere
+   <-YourSecretAPIKeyHere->
    ```
 
 2. **Prepare Your Prompt:**  
-   Edit `prompt.txt` if you want to customize the instructions given to the language model. For example:
-   ```text
-   You are a flashcard generator. Given a student's notes, produce a JSON array of objects with 'front' and 'back' fields for each flashcard...
-   ```
+   Edit `prompt.txt` if you want to customize the instructions given to the language model.
 
 3. **Start the Flask Server:**
    ```bash
-   python app.py
+   flask run
    ```
-   
-   By default, Flask runs the server at `http://127.0.0.1:5000`. Open this URL in your web browser.
-
 4. **Upload a PDF and Generate Flashcards:**
    - On the main page, select a PDF file from your computer.
    - Click "Generate Flashcards".
-   - The application will:
-     - Extract and clean the text from the PDF.
-     - Call the language model to produce flashcards.
-     - Convert those flashcards into an Anki deck.
-     - Prompt you to download the resulting `.apkg` file.
 
 5. **Import into Anki:**
    Open Anki on your computer and import the `.apkg` file. You will see a new deck with the flashcards generated from your PDF notes.
@@ -144,16 +133,6 @@ project_folder/
 
 - **Changing the Deck Name:**  
   In `app.py` or `helpers.py`, you can alter the `deck_name` used in `run_deck_creation()`. By default, it’s hard-coded to `"Deck_generated"`, but you can dynamically set this name based on user input or file names.
-
-- **Styling the Interface:**  
-  The `index.html` file uses a minimal amount of Bootstrap styling. For a better user experience, add a custom CSS file to `static/` and link it in `index.html`, or enhance the form’s layout, colors, and branding.
-
-- **Authentication & Deployment:**
-  For production use:
-  - Keep `apikey.txt` out of your version control or add it to `.gitignore`.
-  - Consider using environment variables (e.g., `export OPENAI_API_KEY="..."`
-    in your system) and reading from `os.environ` instead of a plain text file.
-  - Deploy the Flask app to a production server (such as Gunicorn with Nginx, or render.com, Heroku, etc.) for broader access.
 
 ## Troubleshooting
 
@@ -171,10 +150,9 @@ project_folder/
   - The prompt to ensure the model is instructed clearly to return valid JSON.
   - The raw output by printing the response in `helpers.py`.
 
-## Conclusion
-
-This project is a starting point for automating the creation of flashcards from PDFs. By coupling Flask, text extraction, an AI-driven summarization/flashcard generation model, and the Anki deck creation process, you have a powerful educational tool. You can customize the prompts, improve the front-end, add error handling, or integrate other language models. With this setup, turning your study materials into ready-to-go flashcards has never been easier.
-
----
-
-This `README.md` is designed to guide you through understanding and running the project, as well as offering insights into customization and troubleshooting.
+- **Token Limit Issues:**
+  The total number of tokens used by the prompt, plus the extracted PDF text and the model’s response (including the JSON flashcards), must not exceed the current maximum of **8192 tokens**. Remember that roughly **1 token ≈ 4 characters**.  
+  If your prompt and PDF text are very large or produce a lengthy response, you may need to:
+  - Simplify or shorten your prompt.
+  - Reduce the length of the PDF feeding smaller chunks.
+  - Increase the maximum number of tokens per request in `helper.py`.
