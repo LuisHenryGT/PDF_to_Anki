@@ -126,10 +126,10 @@ project_folder/
 5. **Import into Anki:**
    Open Anki on your computer and import the `.apkg` file. You will see a new deck with the flashcards generated from your PDF notes.
 
-## Customization & Advanced Use
+## Customization
 
 - **Modifying the Prompt:**  
-  Editing `prompt.txt` allows you to change how the language model interprets and formats the flashcards. For instance, you can ask for multiple-choice questions, definitions only, or advanced formatting.
+  Editing `prompt.txt` allows you to change how the language model interprets and formats the flashcards. For instance, you can ask for multiple-choice questions, definitions only, a specific number of flashcard to generate or more advanced formatting.
 
 - **Changing the Deck Name:**  
   In `app.py` or `helpers.py`, you can alter the `deck_name` used in `run_deck_creation()`. By default, it’s hard-coded to `"Deck_generated"`, but you can dynamically set this name based on user input or file names.
