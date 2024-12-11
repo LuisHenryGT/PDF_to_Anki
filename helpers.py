@@ -127,7 +127,7 @@ def run_deck_creation(json_file, deck_name):
         deck_name
     )
 
-    # Add notes to the deck
+    # Add the notes to the deck
     for card in cards:
         note = genanki.Note(
             model=anki_model,

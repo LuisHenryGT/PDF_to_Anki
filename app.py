@@ -4,7 +4,7 @@ from helpers import extract_text_from_pdf, clean_extracted_text, run_flashcard_g
 # Initialize Flask app
 app = Flask(__name__)
 
-
+# base route
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':

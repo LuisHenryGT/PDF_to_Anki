@@ -1,0 +1,6 @@
+openai
+genanki
+pdfplumber
+re
+random
+json
