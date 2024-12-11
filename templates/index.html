@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anki Deck Generator from PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        .header-container img {
+            height: 50px;
+            width: auto;
+        }
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-container">
+        <img src="static/pdf-logo.svg" alt="PDF Logo">
+        <div class="header-title">Anki Deck from PDF</div>
+        <img src="static/anki-logo.svg" alt="Anki Logo">
+    </div>
+    <div class="container mt-5">
+        <h1 class="text-center">Generator</h1>
+        <form action="/" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload your PDF notes</label>
+                <input class="form-control" type="file" name="file" id="file" accept=".pdf" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Flashcards</button>
+        </form>
+    </div>
+</body>
+</html>
