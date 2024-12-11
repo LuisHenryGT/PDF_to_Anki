@@ -1,6 +1,6 @@
 # Anki Deck Generator from PDF
 
-#### Video Demo:  <[URL HERE](https://youtu.be/evfhG7unHMM)>
+#### Video Demo:  [Youtube](https://youtu.be/evfhG7unHMM)
 
 #### Description:
 
