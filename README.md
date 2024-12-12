@@ -3,7 +3,7 @@
 #### Video Demo:  [Youtube](https://youtu.be/evfhG7unHMM)
 
 #### Description:
-
+![Project Banner](static/Screenshot 2024-12-12 160751.png) 
 
 This project is a Flask-based web application that allows you to upload a PDF file (e.g., lecture notes, study guides, etc..) and automatically generate a set of flashcards in an Anki-compatible `.apkg` deck format. By leveraging a large language model (openAI API) for text analysis and card generation, this tool aims to streamline your study process: simply upload your notes as a PDF, and the app will produce flashcards you can instantly import into Anki, making your study sessions more effective and efficient.
 
